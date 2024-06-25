@@ -22,3 +22,7 @@ const getNumbers = (inputString) => {
   }
   return (result === '') ? 'NaN' : Math.abs(result);
 };
+
+checkStringLength();
+checkStringIsPalindrome();
+getNumbers();
