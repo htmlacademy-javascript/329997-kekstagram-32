@@ -12,7 +12,7 @@ const checkStringIsPalindrome = (inputString) => {
 };
 
 //Дополнительное задание. Функция извелечения целого положительного числа
-const getNumebers = (inputString) => {
+const getNumbers = (inputString) => {
   inputString = inputString.toString();
   let result = '';
   for (let i = 0; i <= inputString.length - 1; i++) {
