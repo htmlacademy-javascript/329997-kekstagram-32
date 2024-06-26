@@ -1,5 +1,5 @@
 //Функция для проверки длины строки
-const checkStringLength = (inputString, maxLength) => (inputString.length <= maxLength) ? 'true' : 'false';
+const checkStringLength = (inputString, maxLength) => inputString.length <= maxLength;
 
 //Функция для проверки, является ли строка палиндромом
 const checkStringIsPalindrome = (inputString) => {
@@ -8,7 +8,7 @@ const checkStringIsPalindrome = (inputString) => {
   for (let i = -1; Math.abs(i) <= inputString.length; i--) {
     reversedString += inputString.at(i);
   }
-  return (inputString === reversedString) ? 'true' : 'false';
+  return inputString === reversedString;
 };
 
 //Дополнительное задание. Функция извелечения целого положительного числа
@@ -20,9 +20,9 @@ const getNumbers = (inputString) => {
       result += inputString[i];
     }
   }
-  return (result === '') ? 'NaN' : Math.abs(result);
+  return parseInt(result, 10);
 };
 
-checkStringLength();
-checkStringIsPalindrome();
-getNumbers();
+checkStringLength('tester', 10);
+checkStringIsPalindrome('довод');
+getNumbers('fdhsfkj 032$*#!JDSAL!0-00');
