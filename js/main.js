@@ -69,14 +69,16 @@ const getUnicCommentIndex = getUnicIndex(1, 10000);
 
 //Функция генерации комментариев
 const getRandomComments = () => {
-  const counter = 0;
+  let counter = 0;
+  const commentsCount = getRandomInteger(0, 30);
   const randomComments = [];
-  while (counter < getRandomInteger(0, 30)) {
+  while (counter <= commentsCount) {
     const randomCommentIndex = Math.round(getUnicCommentIndex());
     const randomCommentAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
     const randomCommentMessage = MESSAGES[getRandomInteger(1, 6) - 1];
     const randomCommentUserName = NAMES[getRandomInteger(1, 25) - 1];
     randomComments.push({id: randomCommentIndex, avatar: randomCommentAvatar, message: randomCommentMessage, name: randomCommentUserName});
+    counter++;
   }
   return randomComments;
 };
