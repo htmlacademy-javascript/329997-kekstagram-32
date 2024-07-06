@@ -48,10 +48,13 @@ const getRandomInteger = (min, max) => {
 };
 
 //Функция генерации уникального идентификатора в заданных пределах
-const getUnicIndex = (min, max) => {
+const getUnicIndexGenerator = (min, max) => {
   const usedIndexes = [];
   let unicIndex;
-  return function () {
+  return () => {
+    if (usedIndexes.length >= (max - min + 1)) {
+      return;
+    }
     for (let i = 0; i < max - 1; i++) {
       unicIndex = getRandomInteger(min, max);
       if (usedIndexes.includes(unicIndex)) {
@@ -64,21 +67,19 @@ const getUnicIndex = (min, max) => {
   };
 };
 
-const getUnicPostIndex = getUnicIndex(1, 25);
-const getUnicCommentIndex = getUnicIndex(1, 10000);
+const getUnicPostIndex = getUnicIndexGenerator(1, 25);
+const getUnicCommentIndex = getUnicIndexGenerator(1, 10000);
 
 //Функция генерации комментариев
 const getRandomComments = () => {
-  let counter = 0;
   const commentsCount = getRandomInteger(0, 30);
   const randomComments = [];
-  while (counter <= commentsCount) {
+  for (let i = 0; i <= commentsCount; i++) {
     const randomCommentIndex = Math.round(getUnicCommentIndex());
     const randomCommentAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
-    const randomCommentMessage = MESSAGES[getRandomInteger(1, 6) - 1];
+    const randomCommentMessage = Array.from({length: getRandomInteger(1,2)}, () => MESSAGES[getRandomInteger(1, 6) - 1]).join(' ');
     const randomCommentUserName = NAMES[getRandomInteger(1, 25) - 1];
     randomComments.push({id: randomCommentIndex, avatar: randomCommentAvatar, message: randomCommentMessage, name: randomCommentUserName});
-    counter++;
   }
   return randomComments;
 };
