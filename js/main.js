@@ -40,6 +40,17 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+const ALIKE_USER_POSTS_COUNT = 25;
+const MIN_ID_COUNT = 1;
+const MAX_ID_COUNT = ALIKE_USER_POSTS_COUNT;
+const MAX_AVATAR_COUNT = 6;
+const MIN_LIKE_COUNT = 15;
+const MAX_LIKE_COUNT = 200;
+const MIN_COMMENT_COUNT = 0;
+const MAX_COMMENT_COUNT = 30;
+const MIN_MESSAGE_COUNT = 1;
+const MAX_MESSAGE_COUNT = 2;
+
 //Функция случайной генерации числа в заданных пределах
 const getRandomInteger = (min, max) => {
   const minimum = Math.ceil(Math.min(min, max));
@@ -50,35 +61,33 @@ const getRandomInteger = (min, max) => {
 //Функция генерации уникального идентификатора в заданных пределах
 const getUnicIndexGenerator = (min, max) => {
   const usedIndexes = [];
-  let unicIndex;
   return () => {
+    let unicIndex = getRandomInteger(min, max);
     if (usedIndexes.length >= (max - min + 1)) {
       return;
     }
-    for (let i = 0; i < max - 1; i++) {
+    while (usedIndexes.includes(unicIndex)) {
       unicIndex = getRandomInteger(min, max);
-      if (usedIndexes.includes(unicIndex)) {
-        unicIndex = getRandomInteger(min, max);
-      } else {
-        usedIndexes.push(unicIndex);
-        return unicIndex;
-      }
     }
+    return unicIndex;
   };
 };
 
-const getUnicPostIndex = getUnicIndexGenerator(1, 25);
-const getUnicCommentIndex = getUnicIndexGenerator(1, 10000);
+//Функция генерации случайного количества комментариев
+const getRandomCommentsMessages = (array, minMessageCount, maxMessageCount) => Array.from({length: getRandomInteger(minMessageCount, maxMessageCount)}, () => array[getRandomInteger(1, array.length) - 1]).join(' ');
+
+const getUnicPostIndex = getUnicIndexGenerator(MIN_ID_COUNT, MAX_ID_COUNT);
+const getUnicCommentIndex = getUnicIndexGenerator(MIN_ID_COUNT, 10000);
 
 //Функция генерации комментариев
 const getRandomComments = () => {
-  const commentsCount = getRandomInteger(0, 30);
+  const commentsCount = getRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT);
   const randomComments = [];
   for (let i = 0; i <= commentsCount; i++) {
     const randomCommentIndex = Math.round(getUnicCommentIndex());
-    const randomCommentAvatar = `img/avatar-${getRandomInteger(1, 6)}.svg`;
-    const randomCommentMessage = Array.from({length: getRandomInteger(1,2)}, () => MESSAGES[getRandomInteger(1, 6) - 1]).join(' ');
-    const randomCommentUserName = NAMES[getRandomInteger(1, 25) - 1];
+    const randomCommentAvatar = `img/avatar-${getRandomInteger(MIN_ID_COUNT, MAX_AVATAR_COUNT)}.svg`;
+    const randomCommentMessage = getRandomCommentsMessages(MESSAGES, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT);
+    const randomCommentUserName = NAMES[getRandomInteger(MIN_ID_COUNT, MAX_ID_COUNT) - 1];
     randomComments.push({id: randomCommentIndex, avatar: randomCommentAvatar, message: randomCommentMessage, name: randomCommentUserName});
   }
   return randomComments;
@@ -89,10 +98,13 @@ const createPost = () => {
   const randomPostIndex = getUnicPostIndex();
   const randomPostPhotoUrl = `photos/${randomPostIndex}.jpg`;
   const randomPostPhotoDescription = DESCRIPTIONS[randomPostIndex - 1];
-  const randomPostLikes = getRandomInteger(15, 200);
+  const randomPostLikes = getRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT);
   const randomPostComments = getRandomComments();
 
   return {id: randomPostIndex, url: randomPostPhotoUrl, description: randomPostPhotoDescription, likes: randomPostLikes, comments: randomPostComments};
 };
 
-createPost();
+//Функция вывода массива комментариев
+const createPosts = () => Array.from({length: ALIKE_USER_POSTS_COUNT}, createPost);
+
+createPosts();
