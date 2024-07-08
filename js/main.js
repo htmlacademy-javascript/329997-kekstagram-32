@@ -100,7 +100,6 @@ const createPost = () => {
   const randomPostPhotoDescription = DESCRIPTIONS[randomPostIndex - 1];
   const randomPostLikes = getRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT);
   const randomPostComments = getRandomComments();
-
   return {id: randomPostIndex, url: randomPostPhotoUrl, description: randomPostPhotoDescription, likes: randomPostLikes, comments: randomPostComments};
 };
 
