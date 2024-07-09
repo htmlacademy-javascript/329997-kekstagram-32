@@ -73,8 +73,11 @@ const getUnicIndexGenerator = (min, max) => {
   };
 };
 
+//Функция нахождения случайного элемента в массиве
+const getRandomElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
+
 //Функция генерации случайного количества комментариев
-const getRandomCommentsMessages = (array, minMessageCount, maxMessageCount) => Array.from({length: getRandomInteger(minMessageCount, maxMessageCount)}, () => array[getRandomInteger(1, array.length) - 1]).join(' ');
+const getRandomCommentsMessages = (messages, minMessageCount, maxMessageCount) => Array.from({length: getRandomInteger(minMessageCount, maxMessageCount)}, () => getRandomElement(messages)).join(' ');
 
 const getUnicPostIndex = getUnicIndexGenerator(MIN_ID_COUNT, MAX_ID_COUNT);
 const getUnicCommentIndex = getUnicIndexGenerator(MIN_ID_COUNT, 10000);
@@ -84,7 +87,7 @@ const getRandomComments = () => {
   const commentsCount = getRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT);
   const randomComments = [];
   for (let i = 0; i <= commentsCount; i++) {
-    const randomCommentIndex = Math.round(getUnicCommentIndex());
+    const randomCommentIndex = getUnicCommentIndex();
     const randomCommentAvatar = `img/avatar-${getRandomInteger(MIN_ID_COUNT, MAX_AVATAR_COUNT)}.svg`;
     const randomCommentMessage = getRandomCommentsMessages(MESSAGES, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT);
     const randomCommentUserName = NAMES[getRandomInteger(MIN_ID_COUNT, MAX_ID_COUNT) - 1];
