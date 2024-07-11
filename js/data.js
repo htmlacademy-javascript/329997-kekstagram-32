@@ -1,4 +1,4 @@
-import {getRandomInteger, getUnicIndexGenerator} from './utils.js';
+import {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages} from './utils.js';
 
 //Массив имен
 const NAMES = ['Евгений', 'Виктория', 'Аделина', 'Валерия', 'Кирилл', 'Степан', 'Тимофей', 'Семён', 'Александра', 'Анастасия', 'Александр', 'Варвара', 'Дмитрий', 'Вероника', 'Павел', 'Елизавета', 'Константин', 'Матвей', 'Владислав',
@@ -61,10 +61,10 @@ const getRandomComments = () => {
   const commentsCount = getRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT);
   const randomComments = [];
   for (let i = 0; i <= commentsCount; i++) {
-    const randomCommentIndex = Math.round(getUnicCommentIndex());
+    const randomCommentIndex = getUnicCommentIndex();
     const randomCommentAvatar = `img/avatar-${getRandomInteger(MIN_ID_COUNT, MAX_AVATAR_COUNT)}.svg`;
-    const randomCommentMessage = Array.from({length: getRandomInteger(MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT)}, () => MESSAGES[getRandomInteger(MIN_ID_COUNT, MAX_AVATAR_COUNT) - 1]).join(' ');
-    const randomCommentUserName = NAMES[getRandomInteger(MIN_ID_COUNT, MAX_ID_COUNT) - 1];
+    const randomCommentMessage = getRandomCommentsMessages(MESSAGES, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT);
+    const randomCommentUserName = getRandomElement(NAMES);
     randomComments.push({id: randomCommentIndex, avatar: randomCommentAvatar, message: randomCommentMessage, name: randomCommentUserName});
   }
   return randomComments;
@@ -77,7 +77,6 @@ const createPost = () => {
   const randomPostPhotoDescription = DESCRIPTIONS[randomPostIndex - 1];
   const randomPostLikes = getRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT);
   const randomPostComments = getRandomComments();
-
   return {id: randomPostIndex, url: randomPostPhotoUrl, description: randomPostPhotoDescription, likes: randomPostLikes, comments: randomPostComments};
 };
 

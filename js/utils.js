@@ -20,4 +20,10 @@ const getUnicIndexGenerator = (min, max) => {
   };
 };
 
-export {getRandomInteger, getUnicIndexGenerator};
+//Функция нахождения случайного элемента в массиве
+const getRandomElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
+
+//Функция генерации случайного количества комментариев
+const getRandomCommentsMessages = (messages, minMessageCount, maxMessageCount) => Array.from({length: getRandomInteger(minMessageCount, maxMessageCount)}, () => getRandomElement(messages)).join(' ');
+
+export {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages};
