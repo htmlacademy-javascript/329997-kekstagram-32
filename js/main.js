@@ -90,7 +90,7 @@ const getRandomComments = () => {
     const randomCommentIndex = getUnicCommentIndex();
     const randomCommentAvatar = `img/avatar-${getRandomInteger(MIN_ID_COUNT, MAX_AVATAR_COUNT)}.svg`;
     const randomCommentMessage = getRandomCommentsMessages(MESSAGES, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT);
-    const randomCommentUserName = NAMES[getRandomInteger(MIN_ID_COUNT, MAX_ID_COUNT) - 1];
+    const randomCommentUserName = getRandomElement(NAMES);
     randomComments.push({id: randomCommentIndex, avatar: randomCommentAvatar, message: randomCommentMessage, name: randomCommentUserName});
   }
   return randomComments;
