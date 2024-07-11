@@ -29,10 +29,20 @@ getNumbers('fdhsfkj 032$*#!JDSAL!0-00');
 
 //5.16. Функции возвращаются
 
-const getMinutes = (time) => parseInt(time.split(':')[0], 10) * 60 + parseInt(time.split(':')[1], 10);
+const getMinutes = (time) => {
+  const convertedHours = parseInt(time.split(':')[0], 10) * 60;
+  const convertedMinutes = parseInt(time.split(':')[1], 10);
+  return convertedHours + convertedMinutes;
+};
 
-const isMeetingWithinWorkingDay = (timeStartOfTheDay, timeEndOfTheDay, timeStartOfTheMeeting, duratationOfMeeting) =>
-  !((getMinutes(timeStartOfTheDay) > getMinutes(timeStartOfTheMeeting)) || ((getMinutes(timeStartOfTheMeeting) + duratationOfMeeting) > getMinutes(timeEndOfTheDay)));
+const isMeetingWithinWorkingDay = (timeStartOfTheDay, timeEndOfTheDay, timeStartOfTheMeeting, duratationOfMeeting) => {
+  const timeOfMeeting = getMinutes(timeStartOfTheMeeting) + duratationOfMeeting;
+  const timeStartOfTheDayInMin = getMinutes(timeStartOfTheDay);
+  const timeStartOfTheMeetingInMin = getMinutes(timeStartOfTheMeeting);
+  const timeEndOfTheDayInMin = getMinutes(timeEndOfTheDay);
+  return (timeStartOfTheMeetingInMin >= timeStartOfTheDayInMin) && (timeOfMeeting <= timeEndOfTheDayInMin);
+};
+
 
 isMeetingWithinWorkingDay('08:00', '17:30', '14:00', 90); // true
 isMeetingWithinWorkingDay('8:0', '10:0', '8:0', 120); // true
