@@ -16,6 +16,7 @@ const getUnicIndexGenerator = (min, max) => {
     while (usedIndexes.includes(unicIndex)) {
       unicIndex = getRandomInteger(min, max);
     }
+    usedIndexes.push(unicIndex);
     return unicIndex;
   };
 };
