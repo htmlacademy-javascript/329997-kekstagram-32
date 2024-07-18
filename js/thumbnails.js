@@ -1,4 +1,3 @@
-//Модуль отображения миниатюр
 import {createPosts} from './data.js';
 
 const usersPosts = createPosts();
@@ -21,3 +20,5 @@ usersPosts.forEach(({url, description, likes, comments}) => {
 });
 
 userPicturesContainer.append(userPictureFragment);
+
+export {usersPosts};

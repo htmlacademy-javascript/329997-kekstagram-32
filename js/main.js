@@ -1,4 +1,2 @@
 import './thumbnails.js';
-import {createPosts} from './data.js';
-
-createPosts();
+import './expanded-post.js';
