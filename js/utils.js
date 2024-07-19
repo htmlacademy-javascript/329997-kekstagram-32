@@ -25,6 +25,6 @@ const getRandomCommentsMessages = (messages, minMessageCount, maxMessageCount) =
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const scrollTop = (container) => container.scroll(top);
+const scrollTop = (container) => container.scroll({top: 0, behavior: 'smooth'});
 
 export {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages, isEscapeKey, scrollTop};

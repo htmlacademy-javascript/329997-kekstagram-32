@@ -1,2 +1,2 @@
 import './thumbnails.js';
-import './expanded-post.js';
+import './expanded-post-events.js';
