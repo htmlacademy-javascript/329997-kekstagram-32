@@ -1,17 +1,19 @@
 import { isEscapeKey, scrollTop } from './utils';
-import { fillPopupWindow, getThumbnailId } from './expanded-post-data.js';
+import { fillPopupWindow, getThumbnailId, renderComments } from './expanded-post-data.js';
 
 const bigPictureContainer = document.querySelector('.big-picture');
 const bigPictureCloseButton = document.querySelector('.big-picture__cancel');
-const bigPictureCommentCount = bigPictureContainer.querySelector('.social__comment-count');
 const bigPictureCommentsLoader = bigPictureContainer.querySelector('.social__comments-loader');
 const userPicturesThumbnails = document.querySelector('.pictures');
+
+let currentThumbnaillId;
 
 function onCloseButtonClick () {
   bigPictureContainer.classList.add('hidden');
   document.body.classList.remove('modal-open');
   bigPictureCloseButton.removeEventListener('click', onCloseButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
+  bigPictureCommentsLoader.removeEventListener('click', onLoadButtonClick);
 }
 
 function onDocumentKeydown (evt) {
@@ -21,7 +23,13 @@ function onDocumentKeydown (evt) {
     document.body.classList.remove('modal-open');
     bigPictureCloseButton.removeEventListener('click', onCloseButtonClick);
     document.removeEventListener('keydown', onDocumentKeydown);
+    bigPictureCommentsLoader.removeEventListener('click', onLoadButtonClick);
   }
+}
+
+const onLoadButtonClick = () => {
+  renderComments(currentThumbnaillId, true);
+
 }
 
 const openPopupWindow = () => {
@@ -35,11 +43,10 @@ const onThumbnailClick = (evt) => {
   if (evt.target.classList.contains('picture__img')) {
     evt.preventDefault();
     openPopupWindow();
-    const thumbnailId = getThumbnailId(evt.target.getAttribute('src'));
-    fillPopupWindow(thumbnailId);
-    bigPictureCommentCount.classList.add('hidden');
-    bigPictureCommentsLoader.classList.add('hidden');
+    currentThumbnaillId = getThumbnailId(evt.target.getAttribute('src'));
+    fillPopupWindow(currentThumbnaillId);
     scrollTop(bigPictureContainer);
+    bigPictureCommentsLoader.addEventListener('click', onLoadButtonClick);
   }
 };
 
