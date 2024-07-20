@@ -8,6 +8,11 @@ const userPicturesThumbnails = document.querySelector('.pictures');
 
 let currentThumbnaillId;
 
+
+const onLoadButtonClick = () => {
+  renderComments(currentThumbnaillId, true);
+};
+
 function onCloseButtonClick () {
   bigPictureContainer.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -25,11 +30,6 @@ function onDocumentKeydown (evt) {
     document.removeEventListener('keydown', onDocumentKeydown);
     bigPictureCommentsLoader.removeEventListener('click', onLoadButtonClick);
   }
-}
-
-const onLoadButtonClick = () => {
-  renderComments(currentThumbnaillId, true);
-
 }
 
 const openPopupWindow = () => {

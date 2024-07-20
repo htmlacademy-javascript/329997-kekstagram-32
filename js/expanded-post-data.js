@@ -21,6 +21,16 @@ const getCommentsList = (id) => {
 
 const getRenderedCommentsCount = (element) => element.children.length;
 
+const isCommentsListFull = (id) => {
+  const commentsList = getCommentsList(id);
+  const renderedCommentsCount = getRenderedCommentsCount(bigPictureComments);
+  if (renderedCommentsCount === commentsList.length) {
+    bigPictureCommentsLoader.classList.add('hidden');
+  } else {
+    bigPictureCommentsLoader.classList.remove('hidden');
+  }
+};
+
 const renderComments = (id, load) => {
   const commentsList = getCommentsList(id);
   if (!load) {
@@ -28,15 +38,13 @@ const renderComments = (id, load) => {
       bigPictureComments.insertAdjacentHTML('beforeend', commentsList.join(''));
       isCommentsListFull(id);
       return commentsList.length;
-    }
-    else {
-     const startedCommentsList = commentsList.slice(0, COMMENTS_SHOWN);
+    } else {
+      const startedCommentsList = commentsList.slice(0, COMMENTS_SHOWN);
       bigPictureComments.insertAdjacentHTML('beforeend', startedCommentsList.join(''));
       isCommentsListFull(id);
       return startedCommentsList.length;
     }
-  }
-  else {
+  } else {
     const renderedCommentsCount = getRenderedCommentsCount(bigPictureComments);
     const renderCount = renderedCommentsCount + COMMENTS_LOAD;
     if (renderedCommentsCount <= renderCount) {
@@ -45,17 +53,6 @@ const renderComments = (id, load) => {
       bigPictureCommentShownCount.textContent = getRenderedCommentsCount(bigPictureComments);
       isCommentsListFull(id);
     }
-  }
-};
-
-const isCommentsListFull = (id) => {
-  const commentsList = getCommentsList(id);
-  const renderedCommentsCount = getRenderedCommentsCount(bigPictureComments);
-  if (renderedCommentsCount === commentsList.length) {
-    bigPictureCommentsLoader.classList.add('hidden');
-  }
-  else {
-    bigPictureCommentsLoader.classList.remove('hidden');
   }
 };
 
