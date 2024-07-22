@@ -1,11 +1,9 @@
-//Функция случайной генерации числа в заданных пределах
 const getRandomInteger = (min, max) => {
   const minimum = Math.ceil(Math.min(min, max));
   const maximum = Math.floor(Math.max(min, max));
   return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
 };
 
-//Функция генерации уникального идентификатора в заданных пределах
 const getUnicIndexGenerator = (min, max) => {
   const usedIndexes = [];
   return () => {
@@ -21,10 +19,12 @@ const getUnicIndexGenerator = (min, max) => {
   };
 };
 
-//Функция нахождения случайного элемента в массиве
 const getRandomElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
 
-//Функция генерации случайного количества комментариев
 const getRandomCommentsMessages = (messages, minMessageCount, maxMessageCount) => Array.from({length: getRandomInteger(minMessageCount, maxMessageCount)}, () => getRandomElement(messages)).join(' ');
 
-export {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const scrollTop = (container) => container.scroll({top: 0, behavior: 'smooth'});
+
+export {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages, isEscapeKey, scrollTop};

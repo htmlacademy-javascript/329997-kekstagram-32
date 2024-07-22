@@ -1,10 +1,8 @@
 import {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages} from './utils.js';
 
-//Массив имен
 const NAMES = ['Евгений', 'Виктория', 'Аделина', 'Валерия', 'Кирилл', 'Степан', 'Тимофей', 'Семён', 'Александра', 'Анастасия', 'Александр', 'Варвара', 'Дмитрий', 'Вероника', 'Павел', 'Елизавета', 'Константин', 'Матвей', 'Владислав',
   'Ева', 'София', 'Анна', 'Святослав', 'Арина', 'Роман'];
 
-//Массив описаний к фото
 const DESCRIPTIONS = [
   'Прекрасные виды!',
   'Наконец то на пляж!',
@@ -32,7 +30,6 @@ const DESCRIPTIONS = [
   'Лучший концерт ever!',
   'Ох как мы быстро уезжали от этих зверюг...'];
 
-//Массив комментариев к фото от пользователей
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -56,11 +53,10 @@ const MAX_MESSAGE_COUNT = 2;
 const getUnicPostIndex = getUnicIndexGenerator(MIN_ID_COUNT, MAX_ID_COUNT);
 const getUnicCommentIndex = getUnicIndexGenerator(MIN_ID_COUNT, 10000);
 
-//Функция генерации комментариев
 const getRandomComments = () => {
   const commentsCount = getRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT);
   const randomComments = [];
-  for (let i = 0; i <= commentsCount; i++) {
+  for (let i = 0; i < commentsCount; i++) {
     const randomCommentIndex = getUnicCommentIndex();
     const randomCommentAvatar = `img/avatar-${getRandomInteger(MIN_ID_COUNT, MAX_AVATAR_COUNT)}.svg`;
     const randomCommentMessage = getRandomCommentsMessages(MESSAGES, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT);
@@ -70,7 +66,6 @@ const getRandomComments = () => {
   return randomComments;
 };
 
-//Функция генерации поста
 const createPost = () => {
   const randomPostIndex = getUnicPostIndex();
   const randomPostPhotoUrl = `photos/${randomPostIndex}.jpg`;
@@ -80,7 +75,6 @@ const createPost = () => {
   return {id: randomPostIndex, url: randomPostPhotoUrl, description: randomPostPhotoDescription, likes: randomPostLikes, comments: randomPostComments};
 };
 
-//Функция вывода массива комментариев
 const createPosts = () => Array.from({length: ALIKE_USER_POSTS_COUNT}, createPost);
 
 export {createPosts};
