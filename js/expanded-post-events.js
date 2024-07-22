@@ -8,7 +8,6 @@ const userPicturesThumbnails = document.querySelector('.pictures');
 
 let currentThumbnaillId;
 
-
 const onLoadButtonClick = () => {
   renderComments(currentThumbnaillId, true);
 };
