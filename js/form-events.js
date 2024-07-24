@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils';
 import { pristine } from './form-validator';
+import { setDefaultScaleValue } from './form-scale';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -15,6 +16,7 @@ function onCloseButtonClick () {
   document.removeEventListener('keydown', onDocumentKeydown);
   imgUploadForm.reset();
   pristine.reset();
+  setDefaultScaleValue();
 }
 
 function onDocumentKeydown (evt) {
@@ -30,15 +32,16 @@ function onDocumentKeydown (evt) {
     document.removeEventListener('keydown', onDocumentKeydown);
     imgUploadForm.reset();
     pristine.reset();
+    setDefaultScaleValue();
   }
 }
 
-const openUploadWindow = () => {
+const onUploadClick = () => {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   imgUploadCancelButton.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-imgUploadInput.addEventListener('change', openUploadWindow);
+imgUploadInput.addEventListener('change', onUploadClick);
 
