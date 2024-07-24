@@ -1,4 +1,4 @@
-import {createPosts} from './data.js';
+import { createPosts } from './data.js';
 
 const usersPosts = createPosts();
 
@@ -21,4 +21,4 @@ usersPosts.forEach(({url, description, likes, comments}) => {
 
 userPicturesContainer.append(userPictureFragment);
 
-export {usersPosts};
+export { usersPosts };

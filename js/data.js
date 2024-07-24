@@ -1,4 +1,4 @@
-import {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages} from './utils.js';
+import { getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages } from './utils.js';
 
 const NAMES = ['Евгений', 'Виктория', 'Аделина', 'Валерия', 'Кирилл', 'Степан', 'Тимофей', 'Семён', 'Александра', 'Анастасия', 'Александр', 'Варвара', 'Дмитрий', 'Вероника', 'Павел', 'Елизавета', 'Константин', 'Матвей', 'Владислав',
   'Ева', 'София', 'Анна', 'Святослав', 'Арина', 'Роман'];
@@ -77,4 +77,4 @@ const createPost = () => {
 
 const createPosts = () => Array.from({length: ALIKE_USER_POSTS_COUNT}, createPost);
 
-export {createPosts};
+export { createPosts };
