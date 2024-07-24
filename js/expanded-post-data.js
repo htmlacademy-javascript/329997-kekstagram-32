@@ -1,5 +1,8 @@
 import { usersPosts } from './thumbnails';
 
+const COMMENTS_SHOWN = 5;
+const COMMENTS_LOAD = 5;
+
 const bigPictureContainer = document.querySelector('.big-picture');
 const bigPictureDiv = bigPictureContainer.querySelector('.big-picture__img');
 const bigPictureImg = bigPictureDiv.querySelector('img');
@@ -10,9 +13,6 @@ const bigPictureCommentTotalCount = bigPictureContainer.querySelector('.social__
 const bigPictureComments = bigPictureContainer.querySelector('.social__comments');
 const bigPictureCommentsLoader = bigPictureContainer.querySelector('.social__comments-loader');
 
-const COMMENTS_SHOWN = 5;
-const COMMENTS_LOAD = 5;
-
 const getThumbnailId = (src) => usersPosts.findIndex(({url}) => url === src);
 const getCommentsList = (id) => {
   const comments = usersPosts[id].comments.map(({avatar, message, name}) => `<li class="social__comment"><img class="social__picture" src="${avatar}" alt="${name}" width="35" height="35"><p class="social__text">${message}</p></li>`);
@@ -21,50 +21,40 @@ const getCommentsList = (id) => {
 
 const getRenderedCommentsCount = (element) => element.children.length;
 
-const isCommentsListFull = (id) => {
+const toggleLoadButton = (id) => {
   const commentsList = getCommentsList(id);
   const renderedCommentsCount = getRenderedCommentsCount(bigPictureComments);
-  if (renderedCommentsCount === commentsList.length) {
-    bigPictureCommentsLoader.classList.add('hidden');
-  } else {
-    bigPictureCommentsLoader.classList.remove('hidden');
-  }
+  bigPictureCommentsLoader.classList.toggle('hidden', (renderedCommentsCount === commentsList.length));
 };
 
 const renderComments = (id, load) => {
   const commentsList = getCommentsList(id);
-  if (!load) {
-    if (commentsList.length <= COMMENTS_SHOWN) {
-      bigPictureComments.insertAdjacentHTML('beforeend', commentsList.join(''));
-      isCommentsListFull(id);
-      return commentsList.length;
-    } else {
-      const startedCommentsList = commentsList.slice(0, COMMENTS_SHOWN);
-      bigPictureComments.insertAdjacentHTML('beforeend', startedCommentsList.join(''));
-      isCommentsListFull(id);
-      return startedCommentsList.length;
-    }
-  } else {
+  if (load) {
     const renderedCommentsCount = getRenderedCommentsCount(bigPictureComments);
     const renderCount = renderedCommentsCount + COMMENTS_LOAD;
     if (renderedCommentsCount <= renderCount) {
       const additionalRenderedComments = commentsList.slice(renderedCommentsCount, renderCount);
       bigPictureComments.insertAdjacentHTML('beforeend', additionalRenderedComments.join(''));
       bigPictureCommentShownCount.textContent = getRenderedCommentsCount(bigPictureComments);
-      isCommentsListFull(id);
+      toggleLoadButton(id);
     }
+  } else {
+    const startedCommentsList = commentsList.slice(0, COMMENTS_SHOWN);
+    bigPictureComments.insertAdjacentHTML('beforeend', startedCommentsList.join(''));
+    toggleLoadButton(id);
+    return startedCommentsList.length;
   }
 };
 
 const fillPopupWindow = (id) => {
-  bigPictureImg.src = usersPosts[id].url;
-  bigPictureImg.alt = usersPosts[id].description;
-  bigPictureLikesCount.textContent = usersPosts[id].likes;
-  bigPictureCaption.textContent = usersPosts[id].description;
-  bigPictureCommentShownCount.textContent = renderComments(id, false);
-  bigPictureCommentTotalCount.textContent = usersPosts[id].comments.length;
+  const currentPost = usersPosts[id];
+  bigPictureImg.src = currentPost.url;
+  bigPictureImg.alt = currentPost.description;
+  bigPictureLikesCount.textContent = currentPost.likes;
+  bigPictureCaption.textContent = currentPost.description;
   bigPictureComments.innerHTML = '';
-  renderComments(id, false);
+  bigPictureCommentShownCount.textContent = renderComments(id, false);
+  bigPictureCommentTotalCount.textContent = currentPost.comments.length;
 };
 
 export { fillPopupWindow, getThumbnailId, renderComments };

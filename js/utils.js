@@ -27,4 +27,4 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const scrollTop = (container) => container.scroll({top: 0, behavior: 'smooth'});
 
-export {getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages, isEscapeKey, scrollTop};
+export { getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages, isEscapeKey, scrollTop };
