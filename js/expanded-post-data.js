@@ -1,4 +1,4 @@
-import { usersPosts } from './thumbnails';
+import { usersPosts } from './thumbnails.js';
 
 const COMMENTS_SHOWN = 5;
 const COMMENTS_LOAD = 5;

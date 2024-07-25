@@ -1,4 +1,4 @@
-import { isEscapeKey, scrollTop } from './utils';
+import { isEscapeKey, scrollTop } from './utils.js';
 import { fillPopupWindow, getThumbnailId, renderComments } from './expanded-post-data.js';
 
 const bigPictureContainer = document.querySelector('.big-picture');

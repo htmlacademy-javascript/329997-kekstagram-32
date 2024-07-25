@@ -1,8 +1,9 @@
+import { imgUploadPreview } from './form-filters.js';
+
 const SCALE_MAX = 100;
 const SCALE_MIN = 25;
 const SCALE_STEP = 25;
 
-const imgUploadPreview = document.querySelector('.img-upload__preview > img');
 const imgScaleForm = document.querySelector('.img-upload__scale');
 const imgScaleSmaller = imgScaleForm.querySelector('.scale__control--smaller');
 const imgScaleBigger = imgScaleForm.querySelector('.scale__control--bigger');

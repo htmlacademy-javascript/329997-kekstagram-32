@@ -1,6 +1,6 @@
-import { isEscapeKey } from './utils';
-import { pristine } from './form-validator';
-import { setDefaultScaleValue } from './form-scale';
+import { isEscapeKey } from './utils.js';
+import { pristine } from './form-validator.js';
+import { setDefaultScaleValue } from './form-scale.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -9,7 +9,7 @@ const imgUploadCancelButton = imgUploadForm.querySelector('.img-upload__cancel')
 const inputHashtags = imgUploadForm.querySelector('.text__hashtags');
 const inputComment = imgUploadForm.querySelector('.text__description');
 
-function onCloseButtonClick () {
+const onCloseButtonClick = () => {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imgUploadCancelButton.removeEventListener('click', onCloseButtonClick);
@@ -17,7 +17,7 @@ function onCloseButtonClick () {
   imgUploadForm.reset();
   pristine.reset();
   setDefaultScaleValue();
-}
+};
 
 function onDocumentKeydown (evt) {
   if (document.activeElement === inputHashtags || document.activeElement === inputComment) {

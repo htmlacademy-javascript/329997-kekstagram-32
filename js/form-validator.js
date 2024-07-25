@@ -1,14 +1,15 @@
-const HASHTAG_ERRORS = {
+const COMMENT_LENGTH = 140;
+const HASHTAGS_LENGTH = 5;
+
+const HashtagError = {
   INVALID: 'Хэштег не соответсвует требованиям!',
   QUANTITY: 'Превышено количество хэштегов!',
   REPEATING: 'Хэштеги не должны повторяться!',
 };
 
-const COMMENTS_ERRORS = {
-  LENGTH: 'Длина комментария не должна быть больше 140 символов!'
+const CommentError = {
+  LENGTH: 'Длина комментария не должна быть больше 140 символов!',
 };
-
-const COMMENT_LENGTH = 140;
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtags = imgUploadForm.querySelector('.text__hashtags');
@@ -19,7 +20,7 @@ const pristineConfig = {
   errorClass: 'img-upload__field-wrapper--error',
   successClass: 'img-upload__field-wrapper--success',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'div'
+  errorTextTag: 'div',
 };
 
 const pattern = /^#[a-zа-яё0-9]{1,19}$|^$/i;
@@ -32,7 +33,7 @@ const getHashtags = (value) => {
   return filteredHashtags;
 };
 
-const validateHashtagInvalid = (value) => {
+const validateHashtag = (value) => {
   const hashtags = getHashtags(value);
   return hashtags.every((hashtag) => pattern.test(hashtag));
 };
@@ -44,15 +45,15 @@ const validateHashtagRepeating = (value) => {
 
 const validateHashtagLength = (value) => {
   const hashtags = getHashtags(value);
-  return hashtags.length <= 5;
+  return hashtags.length <= HASHTAGS_LENGTH;
 };
 
 const validateCommentLength = (value) => value.length <= COMMENT_LENGTH;
 
-pristine.addValidator(inputHashtags, validateHashtagInvalid, HASHTAG_ERRORS.INVALID);
-pristine.addValidator(inputHashtags, validateHashtagRepeating, HASHTAG_ERRORS.REPEATING);
-pristine.addValidator(inputHashtags, validateHashtagLength, HASHTAG_ERRORS.QUANTITY);
-pristine.addValidator(inputComment, validateCommentLength, COMMENTS_ERRORS.LENGTH);
+pristine.addValidator(inputHashtags, validateHashtag, HashtagError.INVALID);
+pristine.addValidator(inputHashtags, validateHashtagRepeating, HashtagError.REPEATING);
+pristine.addValidator(inputHashtags, validateHashtagLength, HashtagError.QUANTITY);
+pristine.addValidator(inputComment, validateCommentLength, CommentError.LENGTH);
 
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
