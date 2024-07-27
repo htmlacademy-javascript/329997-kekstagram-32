@@ -9,15 +9,13 @@ const imgScaleSmaller = imgScaleForm.querySelector('.scale__control--smaller');
 const imgScaleBigger = imgScaleForm.querySelector('.scale__control--bigger');
 const imgScaleValue = imgScaleForm.querySelector('.scale__control--value');
 
-const setDefaultScaleValue = () => imgUploadPreview.removeAttribute('style');
-
 const getCurrentScaleValue = () => parseInt(imgScaleValue.value, 10);
 
 const onSmallerScaleClick = () => {
   let currentScale = getCurrentScaleValue();
   if (currentScale > SCALE_MIN) {
     currentScale -= SCALE_STEP;
-    imgUploadPreview.setAttribute('style', `transform: scale(${currentScale / 100})`);
+    imgUploadPreview.style.transform = `scale(${currentScale / 100})`;
     imgScaleValue.value = `${currentScale}%`;
   }
 };
@@ -26,7 +24,7 @@ const onBiggerScaleClick = () => {
   let currentScale = getCurrentScaleValue();
   if (currentScale < SCALE_MAX) {
     currentScale += SCALE_STEP;
-    imgUploadPreview.setAttribute('style', `transform: scale(${currentScale / 100})`);
+    imgUploadPreview.style.transform = `scale(${currentScale / 100})`;
     imgScaleValue.value = `${currentScale}%`;
   }
 };
@@ -34,5 +32,3 @@ const onBiggerScaleClick = () => {
 imgScaleSmaller.addEventListener('click', onSmallerScaleClick);
 
 imgScaleBigger.addEventListener('click', onBiggerScaleClick);
-
-export { setDefaultScaleValue };

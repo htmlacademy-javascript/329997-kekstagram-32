@@ -1,31 +1,33 @@
-
 const imgUploadPreview = document.querySelector('.img-upload__preview > img');
 const imgUploadEffects = document.querySelector('.img-upload__effects');
+const imgUploadEffectsList = imgUploadEffects.querySelector('.effects__list');
 const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 const effectLevelValue = imgUploadEffectLevel.querySelector('.effect-level__value');
 const effectLevelSlider = imgUploadEffectLevel.querySelector('.effect-level__slider');
 
-const inputEffectNone = imgUploadEffects.querySelector('#effect-none');
-const inputEffectChrome = imgUploadEffects.querySelector('#effect-chrome');
-const inputEffectSepia = imgUploadEffects.querySelector('#effect-sepia');
-const inputEffectMarvin = imgUploadEffects.querySelector('#effect-marvin');
-const inputEffectPhobos = imgUploadEffects.querySelector('#effect-heat');
-
-const Styles = {
-  'CHROME': 'filter: grayscale',
-  'SEPIA': 'filter: sepia',
-  'MARVIN': 'filter: invert',
-  'PHOBOS': 'filter: blur',
-  'HEAT': 'filter: brightness',
+const EffectId = {
+  CHROME: 'effect-chrome',
+  SEPIA: 'effect-sepia',
+  MARVIN: 'effect-marvin',
+  PHOBOS: 'effect-phobos',
+  HEAT: 'effect-heat',
 };
 
-const Parametres = {
-  filterChrome: { range: { 'min': 0, 'max': 1 }, step: 0.1, start: 1 },
-  filterSepia: { range: { 'min': 0,'max': 1 }, step: 0.1, start: 1 },
-  filterMarvin: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 },
-  filterPhobos: { range: { 'min': 0, 'max': 3 }, step: 0.1, start: 3 },
-  filterHeat: { range: { 'min': 1, 'max': 3 }, step: 0.1, start: 3 },
-  filterDefault: {},
+const Style = {
+  CHROME: 'grayscale',
+  SEPIA: 'sepia',
+  MARVIN: 'invert',
+  PHOBOS: 'blur',
+  HEAT: 'brightness',
+};
+
+const SliderOption = {
+  CHROME: { range: { 'min': 0, 'max': 1 }, step: 0.1, start: 1 },
+  SEPIA: { range: { 'min': 0,'max': 1 }, step: 0.1, start: 1 },
+  MARVIN: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 },
+  PHOBOS: { range: { 'min': 0, 'max': 3 }, step: 0.1, start: 3 },
+  HEAT: { range: { 'min': 1, 'max': 3 }, step: 0.1, start: 3 },
+  NONE: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 },
 };
 
 noUiSlider.create(effectLevelSlider, {
@@ -36,36 +38,73 @@ noUiSlider.create(effectLevelSlider, {
   start: 100,
   step: 1,
   connect: 'lower',
+  format: {
+    to: (value) => {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: (value) => parseFloat(value),
+  },
 });
 
-const updateSliderChrome = () => {
-  effectLevelSlider.noUiSlider.updateOptions(Parametres.filterChrome);
-  effectLevelSlider.noUiSlider.on('update', () => {
-    effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-    imgUploadPreview.setAttribute('style', `${Styles.CHROME}(${effectLevelValue.value})`);
-});
+const toggleSliderAvailability = (isAvailable) => {
+  effectLevelSlider.classList.toggle('hidden', !isAvailable);
+  imgUploadEffectLevel.classList.toggle('hidden', !isAvailable);
 };
 
-inputEffectChrome.addEventListener('change', updateSliderChrome);
+const setDefaultFormStyles = () => {
+  imgUploadPreview.removeAttribute('style');
+  toggleSliderAvailability(false);
+};
 
+const setDefaultFilter = () => {
+  toggleSliderAvailability(false);
+  imgUploadPreview.style.filter = '';
+};
 
-/* 2.2. Наложение эффекта на изображение:
+const setFilterAttribute = (style, eUnits = '') => {
+  effectLevelSlider.noUiSlider.on('update', () => {
+    effectLevelValue.value = effectLevelSlider.noUiSlider.get();
+    imgUploadPreview.style.filter = `${style}(${effectLevelValue.value}${eUnits})`;
+  });
+};
 
-По умолчанию должен быть выбран эффект «Оригинал».
-На изображение может накладываться только один эффект.
-Интенсивность эффекта регулируется перемещением ползунка в слайдере.
-Слайдер реализуется сторонней библиотекой для реализации слайдеров noUiSlider.
-Уровень эффекта записывается в поле .effect-level__value в виде числа.
-При изменении уровня интенсивности эффекта (предоставляется API слайдера),
-CSS-стили картинки внутри .img-upload__preview обновляются следующим образом:
-Для эффекта «Хром» — filter: grayscale(0..1) с шагом 0.1;
-Для эффекта «Сепия» — filter: sepia(0..1) с шагом 0.1;
-Для эффекта «Марвин» — filter: invert(0..100%) с шагом 1%;
-Для эффекта «Фобос» — filter: blur(0..3px) с шагом 0.1px;
-Для эффекта «Зной» — filter: brightness(1..3) с шагом 0.1;
-Для эффекта «Оригинал» CSS-стили filter удаляются.
-При выборе эффекта «Оригинал» слайдер и его контейнер (элемент .img-upload__effect-level) скрываются.
-При переключении эффектов, уровень насыщенности сбрасывается до начального значения (100%):
-слайдер, CSS-стиль изображения и значение поля должны обновляться. */
+const updateImgUploadPreview = (style, eUnits = '', sliderOption, availability) => {
+  toggleSliderAvailability(availability);
+  effectLevelSlider.noUiSlider.updateOptions(sliderOption);
+  setFilterAttribute(style, eUnits);
+};
 
-export { imgUploadPreview };
+imgUploadEffectsList.addEventListener('change', (evt) => {
+  evt.preventDefault();
+  const effectItem = evt.target
+    .closest('.effects__item')
+    .querySelector('input[type="radio"]');
+
+  switch (effectItem.id) {
+    case EffectId.CHROME:
+      updateImgUploadPreview(Style.CHROME,'', SliderOption.CHROME, true);
+      break;
+    case EffectId.SEPIA:
+      updateImgUploadPreview(Style.SEPIA,'', SliderOption.SEPIA, true);
+      break;
+    case EffectId.MARVIN:
+      updateImgUploadPreview(Style.MARVIN,'%', SliderOption.MARVIN, true);
+      break;
+    case EffectId.PHOBOS:
+      updateImgUploadPreview(Style.PHOBOS,'px', SliderOption.PHOBOS, true);
+      break;
+    case EffectId.HEAT:
+      updateImgUploadPreview(Style.HEAT,'', SliderOption.HEAT, true);
+      break;
+    case EffectId.NONE:
+      setDefaultFilter();
+      break;
+    default:
+      setDefaultFilter();
+  }
+});
+
+export { imgUploadPreview, setDefaultFormStyles };
