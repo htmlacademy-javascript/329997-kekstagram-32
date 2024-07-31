@@ -19,6 +19,8 @@ const getUnicIndexGenerator = (min, max) => {
   };
 };
 
+const getValueInRange = (value, min, max) => Math.min(max, Math.max(min, value));
+
 const getRandomElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
 
 const getRandomCommentsMessages = (messages, minMessageCount, maxMessageCount) => Array.from({length: getRandomInteger(minMessageCount, maxMessageCount)}, () => getRandomElement(messages)).join(' ');
@@ -27,4 +29,4 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const scrollTop = (container) => container.scroll({top: 0, behavior: 'smooth'});
 
-export { getRandomInteger, getUnicIndexGenerator, getRandomElement, getRandomCommentsMessages, isEscapeKey, scrollTop };
+export { getRandomInteger, getUnicIndexGenerator, getRandomElement, getValueInRange, getRandomCommentsMessages, isEscapeKey, scrollTop };
