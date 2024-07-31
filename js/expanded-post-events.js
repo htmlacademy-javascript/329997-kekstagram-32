@@ -12,28 +12,31 @@ const onLoadButtonClick = () => {
   renderComments(currentThumbnaillId, true);
 };
 
-function onCloseButtonClick () {
+const hideBigPicture = () => {
   bigPictureContainer.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  bigPictureCloseButton.removeEventListener('click', onCloseButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
-  bigPictureCommentsLoader.removeEventListener('click', onLoadButtonClick);
-}
+};
 
-function onDocumentKeydown (evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    bigPictureContainer.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    bigPictureCloseButton.removeEventListener('click', onCloseButtonClick);
-    document.removeEventListener('keydown', onDocumentKeydown);
-    bigPictureCommentsLoader.removeEventListener('click', onLoadButtonClick);
-  }
-}
-
-const openPopupWindow = () => {
+const showBigPicture = () => {
   bigPictureContainer.classList.remove('hidden');
   document.body.classList.add('modal-open');
+};
+
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    document.removeEventListener('keydown', onDocumentKeydown);
+    hideBigPicture();
+  }
+};
+
+const onCloseButtonClick = () => {
+  document.removeEventListener('keydown', onDocumentKeydown);
+  hideBigPicture();
+};
+
+const openPopupWindow = () => {
+  showBigPicture();
   bigPictureCloseButton.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };

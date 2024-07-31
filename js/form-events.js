@@ -9,36 +9,43 @@ const imgUploadCancelButton = imgUploadForm.querySelector('.img-upload__cancel')
 const inputHashtags = imgUploadForm.querySelector('.text__hashtags');
 const inputComment = imgUploadForm.querySelector('.text__description');
 
-const onCloseButtonClick = () => {
+const hideForm = () => {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  imgUploadCancelButton.removeEventListener('click', onCloseButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const showForm = () => {
+  imgUploadOverlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+};
+
+const resetForm = () => {
   imgUploadForm.reset();
   pristine.reset();
   setDefaultFormStyles();
 };
 
-function onDocumentKeydown (evt) {
+const onDocumentKeydown = (evt) => {
   if (document.activeElement === inputHashtags || document.activeElement === inputComment) {
     evt.stopPropagation();
     return;
   }
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    imgUploadOverlay.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    imgUploadCancelButton.removeEventListener('click', onCloseButtonClick);
     document.removeEventListener('keydown', onDocumentKeydown);
-    imgUploadForm.reset();
-    pristine.reset();
-    setDefaultFormStyles();
+    hideForm();
+    resetForm();
   }
-}
+};
+
+const onCloseButtonClick = () => {
+  document.removeEventListener('keydown', onDocumentKeydown);
+  hideForm();
+  resetForm();
+};
 
 const onUploadClick = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
+  showForm();
   imgUploadCancelButton.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
   setDefaultFormStyles();

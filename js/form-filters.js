@@ -11,14 +11,16 @@ const EffectId = {
   MARVIN: 'effect-marvin',
   PHOBOS: 'effect-phobos',
   HEAT: 'effect-heat',
+  NONE: 'effect-none',
 };
 
 const Style = {
-  CHROME: 'grayscale',
-  SEPIA: 'sepia',
-  MARVIN: 'invert',
-  PHOBOS: 'blur',
-  HEAT: 'brightness',
+  CHROME: { effect: 'grayscale', units: '', slider: true },
+  SEPIA: { effect: 'sepia', units: '', slider: true },
+  MARVIN: { effect: 'invert', units: '%', slider: true },
+  PHOBOS: { effect: 'blur', units: 'px', slider: true },
+  HEAT: { effect: 'brightness', units: '', slider: true },
+  NONE: { effect: 'none', units: '', slider: false },
 };
 
 const SliderOption = {
@@ -59,52 +61,28 @@ const setDefaultFormStyles = () => {
   toggleSliderAvailability(false);
 };
 
-const setDefaultFilter = () => {
-  toggleSliderAvailability(false);
-  imgUploadPreview.style.filter = '';
-};
-
-const setFilterAttribute = (style, eUnits = '') => {
+const setFilterAttribute = (style = 'none', units) => {
   effectLevelSlider.noUiSlider.on('update', () => {
     effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-    imgUploadPreview.style.filter = `${style}(${effectLevelValue.value}${eUnits})`;
+    imgUploadPreview.style.filter = `${style}(${effectLevelValue.value}${units})`;
   });
 };
 
-const updateImgUploadPreview = (style, eUnits = '', sliderOption, availability) => {
+const updateImgUploadPreview = (style, units, sliderOption, availability) => {
   toggleSliderAvailability(availability);
   effectLevelSlider.noUiSlider.updateOptions(sliderOption);
-  setFilterAttribute(style, eUnits);
+  setFilterAttribute(style, units);
 };
 
 imgUploadEffectsList.addEventListener('change', (evt) => {
   evt.preventDefault();
-  const effectItem = evt.target
-    .closest('.effects__item')
-    .querySelector('input[type="radio"]');
-
-  switch (effectItem.id) {
-    case EffectId.CHROME:
-      updateImgUploadPreview(Style.CHROME,'', SliderOption.CHROME, true);
-      break;
-    case EffectId.SEPIA:
-      updateImgUploadPreview(Style.SEPIA,'', SliderOption.SEPIA, true);
-      break;
-    case EffectId.MARVIN:
-      updateImgUploadPreview(Style.MARVIN,'%', SliderOption.MARVIN, true);
-      break;
-    case EffectId.PHOBOS:
-      updateImgUploadPreview(Style.PHOBOS,'px', SliderOption.PHOBOS, true);
-      break;
-    case EffectId.HEAT:
-      updateImgUploadPreview(Style.HEAT,'', SliderOption.HEAT, true);
-      break;
-    case EffectId.NONE:
-      setDefaultFilter();
-      break;
-    default:
-      setDefaultFilter();
+  const effectItemId = evt.target.id;
+  if (effectItemId === EffectId.NONE) {
+    setDefaultFormStyles();
+    return;
   }
+  const filter = Object.keys(EffectId).find((element) => EffectId[element] === effectItemId);
+  updateImgUploadPreview(Style[filter].effect, Style[filter].units, SliderOption[filter], Style[filter].slider);
 });
 
 export { imgUploadPreview, setDefaultFormStyles };
