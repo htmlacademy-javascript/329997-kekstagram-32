@@ -1,4 +1,4 @@
-import { isEscapeKey } from './utils';
+import { isEscapeKey } from './utils.js';
 
 function onSuccessButtonClick () {
   const sumbitSuccessElement = document.querySelector('.success');
