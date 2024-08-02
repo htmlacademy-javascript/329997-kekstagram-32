@@ -4,6 +4,7 @@ import './form-scale.js';
 import { getData } from './api.js';
 import { renderPosts } from './thumbnails.js';
 import { setUsersPosts } from './expanded-post-data.js';
+import { renderDataAlert } from './alerts.js';
 
 getData()
   .then(
@@ -12,7 +13,7 @@ getData()
       setUsersPosts(posts);
     })
   .catch(() => {
-    showAlert();
+    renderDataAlert();
   });
 
 
