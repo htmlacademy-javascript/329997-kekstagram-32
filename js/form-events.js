@@ -12,6 +12,7 @@ const inputComment = imgUploadForm.querySelector('.text__description');
 const hideForm = () => {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const showForm = () => {
@@ -25,21 +26,21 @@ const resetForm = () => {
   setDefaultFormStyles();
 };
 
-const onDocumentKeydown = (evt) => {
+function onDocumentKeydown (evt) {
   if (document.activeElement === inputHashtags || document.activeElement === inputComment) {
     evt.stopPropagation();
     return;
   }
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    document.removeEventListener('keydown', onDocumentKeydown);
-    hideForm();
-    resetForm();
+  if (!(document.querySelector('.error'))) {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      hideForm();
+      resetForm();
+    }
   }
-};
+}
 
 const onCloseButtonClick = () => {
-  document.removeEventListener('keydown', onDocumentKeydown);
   hideForm();
   resetForm();
 };
@@ -53,3 +54,4 @@ const onUploadClick = () => {
 
 imgUploadInput.addEventListener('change', onUploadClick);
 
+export { hideForm, resetForm };

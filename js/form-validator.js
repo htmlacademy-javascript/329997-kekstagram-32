@@ -1,3 +1,7 @@
+import { sendData } from './api.js';
+import { renderSubmitSuccessAlert, renderSubmitErrorAlert } from './alerts-renders.js';
+import { hideForm, resetForm } from './form-events.js';
+
 const COMMENT_LENGTH = 140;
 const HASHTAGS_LENGTH = 5;
 
@@ -11,9 +15,15 @@ const CommentError = {
   LENGTH: 'Длина комментария не должна быть больше 140 символов!',
 };
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
 const imgUploadForm = document.querySelector('.img-upload__form');
 const inputHashtags = imgUploadForm.querySelector('.text__hashtags');
 const inputComment = imgUploadForm.querySelector('.text__description');
+const submitButton = imgUploadForm.querySelector('.img-upload__submit');
 
 const pristineConfig = {
   classTo: 'img-upload__field-wrapper',
@@ -21,6 +31,16 @@ const pristineConfig = {
   successClass: 'img-upload__field-wrapper--success',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
 };
 
 const pattern = /^#[a-zа-яё0-9]{1,19}$|^$/i;
@@ -55,12 +75,27 @@ pristine.addValidator(inputHashtags, validateHashtagRepeating, HashtagError.REPE
 pristine.addValidator(inputHashtags, validateHashtagLength, HashtagError.QUANTITY);
 pristine.addValidator(inputComment, validateCommentLength, CommentError.LENGTH);
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    inputHashtags.value = getHashtags(inputHashtags.value).join(' ');
-    imgUploadForm.submit();
-  }
-});
+const setUserFormSubmit = () => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      inputHashtags.value = getHashtags(inputHashtags.value).join(' ');
+      sendData(new FormData(evt.target))
+        .then(() => {
+          renderSubmitSuccessAlert();
+          hideForm();
+          resetForm();
+        })
+        .catch(
+          () => {
+            renderSubmitErrorAlert();
+          }
+        )
+        .finally(unblockSubmitButton);
+    }
+  });
+};
 
-export { pristine };
+export { pristine, setUserFormSubmit };
