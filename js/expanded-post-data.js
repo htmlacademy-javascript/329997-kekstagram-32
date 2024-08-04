@@ -3,7 +3,7 @@ const COMMENTS_LOAD = 5;
 
 const bigPictureContainer = document.querySelector('.big-picture');
 const bigPictureDiv = bigPictureContainer.querySelector('.big-picture__img');
-const bigPictureImg = bigPictureDiv.querySelector('img');
+const bigPictureImage = bigPictureDiv.querySelector('img');
 const bigPictureLikesCount = bigPictureContainer.querySelector('.likes-count');
 const bigPictureCaption = bigPictureContainer.querySelector('.social__caption');
 const bigPictureCommentShownCount = bigPictureContainer.querySelector('.social__comment-shown-count');
@@ -52,8 +52,8 @@ const renderComments = (id, load) => {
 
 const fillPopupWindow = (id) => {
   const currentPost = usersPosts[id];
-  bigPictureImg.src = currentPost.url;
-  bigPictureImg.alt = currentPost.description;
+  bigPictureImage.src = currentPost.url;
+  bigPictureImage.alt = currentPost.description;
   bigPictureLikesCount.textContent = currentPost.likes;
   bigPictureCaption.textContent = currentPost.description;
   bigPictureComments.innerHTML = '';
