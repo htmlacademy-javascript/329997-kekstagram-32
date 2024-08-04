@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { renderSubmitSuccessAlert, renderSubmitErrorAlert } from './alerts-renders.js';
+import { renderSubmitAlert } from './alerts-renders.js';
 import { hideForm, resetForm } from './form-events.js';
 
 const COMMENT_LENGTH = 140;
@@ -84,15 +84,13 @@ const setUserFormSubmit = () => {
       inputHashtags.value = getHashtags(inputHashtags.value).join(' ');
       sendData(new FormData(evt.target))
         .then(() => {
-          renderSubmitSuccessAlert();
+          renderSubmitAlert(true);
           hideForm();
           resetForm();
         })
-        .catch(
-          () => {
-            renderSubmitErrorAlert();
-          }
-        )
+        .catch(() => {
+          renderSubmitAlert(false);
+        })
         .finally(unblockSubmitButton);
     }
   });

@@ -5,31 +5,13 @@ const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level')
 const effectLevelValue = imgUploadEffectLevel.querySelector('.effect-level__value');
 const effectLevelSlider = imgUploadEffectLevel.querySelector('.effect-level__slider');
 
-const EffectId = {
-  CHROME: 'effect-chrome',
-  SEPIA: 'effect-sepia',
-  MARVIN: 'effect-marvin',
-  PHOBOS: 'effect-phobos',
-  HEAT: 'effect-heat',
-  NONE: 'effect-none',
-};
-
 const Style = {
-  CHROME: { effect: 'grayscale', units: '', slider: true },
-  SEPIA: { effect: 'sepia', units: '', slider: true },
-  MARVIN: { effect: 'invert', units: '%', slider: true },
-  PHOBOS: { effect: 'blur', units: 'px', slider: true },
-  HEAT: { effect: 'brightness', units: '', slider: true },
-  NONE: { effect: 'none', units: '', slider: false },
-};
-
-const SliderOption = {
-  CHROME: { range: { 'min': 0, 'max': 1 }, step: 0.1, start: 1 },
-  SEPIA: { range: { 'min': 0,'max': 1 }, step: 0.1, start: 1 },
-  MARVIN: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 },
-  PHOBOS: { range: { 'min': 0, 'max': 3 }, step: 0.1, start: 3 },
-  HEAT: { range: { 'min': 1, 'max': 3 }, step: 0.1, start: 3 },
-  NONE: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 },
+  CHROME: { id: 'effect-chrome', effect: 'grayscale', units: '', slider: true, sliderOptions: { range: { 'min': 0, 'max': 1 }, step: 0.1, start: 1 } },
+  SEPIA: { id: 'effect-sepia', effect: 'sepia', units: '', slider: true, sliderOptions: { range: { 'min': 0,'max': 1 }, step: 0.1, start: 1 } },
+  MARVIN: { id: 'effect-marvin', effect: 'invert', units: '%', slider: true, sliderOptions: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 } },
+  PHOBOS: { id: 'effect-phobos', effect: 'blur', units: 'px', slider: true, sliderOptions: { range: { 'min': 0, 'max': 3 }, step: 0.1, start: 3 } },
+  HEAT: { id: 'effect-heat', effect: 'brightness', units: '', slider: true, sliderOptions: { range: { 'min': 1, 'max': 3 }, step: 0.1, start: 3 } },
+  NONE: { id: 'effect-none', effect: 'none', units: '', slider: false, sliderOptions: { range: { 'min': 0, 'max': 100 }, step: 1, start: 100 } },
 };
 
 noUiSlider.create(effectLevelSlider, {
@@ -77,12 +59,12 @@ const updateImgUploadPreview = (style, units, sliderOption, availability) => {
 imgUploadEffectsList.addEventListener('change', (evt) => {
   evt.preventDefault();
   const effectItemId = evt.target.id;
-  if (effectItemId === EffectId.NONE) {
+  if (effectItemId === Style.NONE.id) {
     setDefaultFormStyles();
     return;
   }
-  const filter = Object.keys(EffectId).find((element) => EffectId[element] === effectItemId);
-  updateImgUploadPreview(Style[filter].effect, Style[filter].units, SliderOption[filter], Style[filter].slider);
+  const filter = Object.values(Style).find((element) => element.id === effectItemId);
+  updateImgUploadPreview(filter.effect, filter.units, filter.sliderOptions, filter.slider);
 });
 
 export { imgUploadPreview, setDefaultFormStyles };

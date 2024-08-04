@@ -1,27 +1,22 @@
 import { isEscapeKey } from './utils.js';
 
-function onSuccessButtonClick () {
-  const sumbitSuccessElement = document.querySelector('.success');
-  sumbitSuccessElement.remove();
+const removeAlertElement = (alertClass) => {
+  const sumbitElement = document.querySelector(alertClass);
+  sumbitElement.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   document.removeEventListener('click', onDocumentMouseClick);
-}
+};
 
-function onErrorButtonClick () {
-  const sumbitErrorElement = document.querySelector('.error');
-  sumbitErrorElement.remove();
-  document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onDocumentMouseClick);
-}
+const onAlertButtonClick = (alertClass) => () => removeAlertElement(alertClass);
 
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    if (document.querySelector('.success')) {
-      onSuccessButtonClick();
+    if (document.body.contains(document.querySelector('.success'))) {
+      removeAlertElement('.success');
     }
-    if (document.querySelector('.error')) {
-      onErrorButtonClick();
+    if (document.body.contains(document.querySelector('.error'))) {
+      removeAlertElement('.error');
     }
   }
 }
@@ -29,11 +24,11 @@ function onDocumentKeydown (evt) {
 function onDocumentMouseClick (evt) {
   evt.preventDefault();
   if (evt.target === document.querySelector('.success')) {
-    onSuccessButtonClick();
+    removeAlertElement('.success');
   }
   if (evt.target === document.querySelector('.error')) {
-    onErrorButtonClick();
+    removeAlertElement('.error');
   }
 }
 
-export { onSuccessButtonClick, onErrorButtonClick, onDocumentKeydown, onDocumentMouseClick };
+export { onAlertButtonClick, onDocumentKeydown, onDocumentMouseClick };

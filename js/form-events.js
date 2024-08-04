@@ -31,12 +31,10 @@ function onDocumentKeydown (evt) {
     evt.stopPropagation();
     return;
   }
-  if (!(document.querySelector('.error'))) {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      hideForm();
-      resetForm();
-    }
+  if (!document.body.contains(document.querySelector('.error')) && isEscapeKey(evt)) {
+    evt.preventDefault();
+    hideForm();
+    resetForm();
   }
 }
 

@@ -1,4 +1,4 @@
-import { onSuccessButtonClick, onErrorButtonClick, onDocumentKeydown, onDocumentMouseClick } from './alerts-events.js';
+import { onAlertButtonClick, onDocumentKeydown, onDocumentMouseClick } from './alerts-events.js';
 
 const dataErrorTemplate = document.querySelector('#data-error')
   .content
@@ -13,10 +13,8 @@ const submitErrorTemplate = document.querySelector('#error')
   .querySelector('.error');
 
 const renderAlert = (template) => {
-  const fragment = document.createDocumentFragment();
   const element = template.cloneNode(true);
-  fragment.append(element);
-  document.body.append(fragment);
+  document.body.append(element);
 };
 
 const renderDataAlert = () => {
@@ -25,20 +23,18 @@ const renderDataAlert = () => {
   setTimeout(() => dataErrorElement.remove(), 5000);
 };
 
-const renderSubmitSuccessAlert = () => {
-  renderAlert(submitSuccessTemplate);
-  const successButton = document.querySelector('.success__button');
-  successButton.addEventListener('click', onSuccessButtonClick);
+const renderSubmitAlert = (success) => {
+  if (success) {
+    renderAlert(submitSuccessTemplate);
+    const successButton = document.querySelector('.success__button');
+    successButton.addEventListener('click', onAlertButtonClick('.success'));
+  } else {
+    renderAlert(submitErrorTemplate);
+    const errorButton = document.querySelector('.error__button');
+    errorButton.addEventListener('click', onAlertButtonClick('.error'));
+  }
   document.addEventListener('keydown', onDocumentKeydown);
   document.addEventListener('click', onDocumentMouseClick);
 };
 
-const renderSubmitErrorAlert = () => {
-  renderAlert(submitErrorTemplate);
-  const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', onErrorButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', onDocumentMouseClick);
-};
-
-export { renderDataAlert, renderSubmitSuccessAlert, renderSubmitErrorAlert };
+export { renderDataAlert, renderSubmitAlert };
