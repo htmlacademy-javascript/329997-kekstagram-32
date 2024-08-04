@@ -49,9 +49,10 @@ const MIN_COMMENT_COUNT = 0;
 const MAX_COMMENT_COUNT = 30;
 const MIN_MESSAGE_COUNT = 1;
 const MAX_MESSAGE_COUNT = 2;
+const MAX_COMMENT_ID_COUNT = 10000;
 
 const getUnicPostIndex = getUnicIndexGenerator(MIN_ID_COUNT, MAX_ID_COUNT);
-const getUnicCommentIndex = getUnicIndexGenerator(MIN_ID_COUNT, 10000);
+const getUnicCommentIndex = getUnicIndexGenerator(MIN_ID_COUNT, MAX_COMMENT_ID_COUNT);
 
 const getRandomComments = () => {
   const commentsCount = getRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT);
