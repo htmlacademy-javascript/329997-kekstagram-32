@@ -1,5 +1,3 @@
-import { usersPosts } from './thumbnails.js';
-
 const COMMENTS_SHOWN = 5;
 const COMMENTS_LOAD = 5;
 
@@ -12,6 +10,12 @@ const bigPictureCommentShownCount = bigPictureContainer.querySelector('.social__
 const bigPictureCommentTotalCount = bigPictureContainer.querySelector('.social__comment-total-count');
 const bigPictureComments = bigPictureContainer.querySelector('.social__comments');
 const bigPictureCommentsLoader = bigPictureContainer.querySelector('.social__comments-loader');
+
+let usersPosts = [];
+
+const setUsersPosts = (data) => {
+  usersPosts = data;
+};
 
 const getThumbnailId = (src) => usersPosts.findIndex(({url}) => url === src);
 const getCommentsList = (id) => {
@@ -57,4 +61,4 @@ const fillPopupWindow = (id) => {
   bigPictureCommentTotalCount.textContent = currentPost.comments.length;
 };
 
-export { fillPopupWindow, getThumbnailId, renderComments };
+export { fillPopupWindow, getThumbnailId, renderComments, setUsersPosts };
