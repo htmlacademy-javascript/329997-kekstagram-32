@@ -13,7 +13,7 @@ const bigPictureCommentsLoader = bigPictureContainer.querySelector('.social__com
 
 let usersPosts = [];
 
-const setUsersPosts = (data) => {
+const getUsersPostsToExpanded = (data) => {
   usersPosts = data;
 };
 
@@ -61,4 +61,4 @@ const fillPopupWindow = (id) => {
   bigPictureCommentTotalCount.textContent = currentPost.comments.length;
 };
 
-export { fillPopupWindow, getThumbnailId, renderComments, setUsersPosts };
+export { fillPopupWindow, getThumbnailId, renderComments, getUsersPostsToExpanded };
