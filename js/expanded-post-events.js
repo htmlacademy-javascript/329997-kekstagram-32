@@ -42,8 +42,8 @@ const openPopupWindow = () => {
 };
 
 const onThumbnailClick = (evt) => {
-  if (evt.target.classList.contains('picture__img')) {
-    evt.preventDefault();
+  if (evt.target.classList.contains('picture')) {
+    //evt.preventDefault();
     openPopupWindow();
     currentThumbnaillId = getThumbnailId(evt.target.getAttribute('src'));
     fillPopupWindow(currentThumbnaillId);
