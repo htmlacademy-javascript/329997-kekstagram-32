@@ -41,15 +41,15 @@ const openPopupWindow = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const onThumbnailClick = (evt) => {
-  if (evt.target.classList.contains('picture')) {
-    //evt.preventDefault();
+userPicturesThumbnails.addEventListener('click', (evt) => {
+  if (evt.target.closest('.picture')) {
+    const thumbnail = evt.target.closest('.picture');
+    const thumbnailImage = thumbnail.querySelector('.picture__img');
+    evt.preventDefault();
     openPopupWindow();
-    currentThumbnaillId = getThumbnailId(evt.target.getAttribute('src'));
+    currentThumbnaillId = getThumbnailId(thumbnailImage.getAttribute('src'));
     fillPopupWindow(currentThumbnaillId);
     scrollTop(bigPictureContainer);
     bigPictureCommentsLoader.addEventListener('click', onLoadButtonClick);
   }
-};
-
-userPicturesThumbnails.addEventListener('click', onThumbnailClick);
+});
