@@ -43,7 +43,7 @@ const setDefaultFormStyles = () => {
   toggleSliderAvailability(false);
 };
 
-const setFilterAttribute = (style = 'none', units) => {
+const setFilterAttribute = (style, units) => {
   effectLevelSlider.noUiSlider.on('update', () => {
     effectLevelValue.value = effectLevelSlider.noUiSlider.get();
     imageUploadPreview.style.filter = `${style}(${effectLevelValue.value}${units})`;

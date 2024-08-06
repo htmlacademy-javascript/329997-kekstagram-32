@@ -62,9 +62,8 @@ const setRenderFilteredPostsClick = (callback) => {
     if (currentFilterId === '') {
       return;
     }
-    const filter = Object.values(FilterId).find((element) => element === currentFilterId);
-    toggleFilterButtonClass(filter);
-    callback(filter);
+    toggleFilterButtonClass(currentFilterId);
+    callback(currentFilterId);
   });
 };
 
