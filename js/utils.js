@@ -19,6 +19,23 @@ const getUnicIndexGenerator = (min, max) => {
   };
 };
 
+const shuffle = (elements) => {
+  const newElements = [...elements];
+  for (let i = elements.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newElements[i], newElements[j]] = [newElements[j], newElements[i]];
+  }
+  return newElements;
+};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 const getValueInRange = (value, min, max) => Math.min(max, Math.max(min, value));
 
 const getRandomElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
@@ -29,4 +46,4 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const scrollTop = (container) => container.scroll({top: 0, behavior: 'smooth'});
 
-export { getRandomInteger, getUnicIndexGenerator, getRandomElement, getValueInRange, getRandomCommentsMessages, isEscapeKey, scrollTop };
+export { getRandomInteger, getUnicIndexGenerator, getRandomElement, getValueInRange, getRandomCommentsMessages, isEscapeKey, scrollTop, shuffle, debounce };

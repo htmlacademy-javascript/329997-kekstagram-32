@@ -20,10 +20,10 @@ const SubmitButtonText = {
   SENDING: 'Публикую...'
 };
 
-const imgUploadForm = document.querySelector('.img-upload__form');
-const inputHashtags = imgUploadForm.querySelector('.text__hashtags');
-const inputComment = imgUploadForm.querySelector('.text__description');
-const submitButton = imgUploadForm.querySelector('.img-upload__submit');
+const imageUploadForm = document.querySelector('.img-upload__form');
+const inputHashtags = imageUploadForm.querySelector('.text__hashtags');
+const inputComment = imageUploadForm.querySelector('.text__description');
+const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 
 const pristineConfig = {
   classTo: 'img-upload__field-wrapper',
@@ -45,7 +45,7 @@ const unblockSubmitButton = () => {
 
 const pattern = /^#[a-zа-яё0-9]{1,19}$|^$/i;
 
-const pristine = new Pristine(imgUploadForm, pristineConfig);
+const pristine = new Pristine(imageUploadForm, pristineConfig);
 
 const getHashtags = (value) => {
   const hashtags = value.trim().toLowerCase().split(' ');
@@ -76,7 +76,7 @@ pristine.addValidator(inputHashtags, validateHashtagLength, HashtagError.QUANTIT
 pristine.addValidator(inputComment, validateCommentLength, CommentError.LENGTH);
 
 const setUserFormSubmit = () => {
-  imgUploadForm.addEventListener('submit', (evt) => {
+  imageUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {

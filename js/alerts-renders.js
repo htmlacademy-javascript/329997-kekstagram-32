@@ -1,5 +1,7 @@
 import { onAlertButtonClick, onDocumentKeydown, onDocumentMouseClick } from './alerts-events.js';
 
+const ALERT_SHOW_TIME = 5000;
+
 const dataErrorTemplate = document.querySelector('#data-error')
   .content
   .querySelector('.data-error');
@@ -20,7 +22,7 @@ const renderAlert = (template) => {
 const renderDataAlert = () => {
   renderAlert(dataErrorTemplate);
   const dataErrorElement = document.querySelector('.data-error');
-  setTimeout(() => dataErrorElement.remove(), 5000);
+  setTimeout(() => dataErrorElement.remove(), ALERT_SHOW_TIME);
 };
 
 const renderSubmitAlert = (success) => {
