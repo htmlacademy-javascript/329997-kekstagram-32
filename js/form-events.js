@@ -3,7 +3,6 @@ import { pristine } from './form-validator.js';
 import { setDefaultFormStyles } from './form-filters.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-const DEFAULT_PREVIEW_FILE = 'img/upload-default-image.jpg';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
@@ -63,8 +62,10 @@ imageUploadInput.addEventListener('change', () => {
   const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
   if (matches) {
     imageUploadPreview.src = URL.createObjectURL(file);
-  } else {
-    imageUploadPreview.src = DEFAULT_PREVIEW_FILE;
+    const filterPreview = document.querySelectorAll('.effects__preview');
+    [...filterPreview].forEach((element) => {
+      element.style.backgroundImage = `url('${imageUploadPreview.src}')`;
+    });
   }
 });
 
