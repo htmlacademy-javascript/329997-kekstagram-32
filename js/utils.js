@@ -30,9 +30,9 @@ const shuffle = (elements) => {
 
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
-  return () => {
+  return (...rest) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback(), timeoutDelay);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 };
 

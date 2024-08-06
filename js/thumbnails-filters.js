@@ -47,29 +47,25 @@ const renderFilteredPosts = (id) => {
   if (id === FilterId.RANDOM) {
     const shuffledPosts = shuffle(posts);
     filteredPosts = shuffledPosts.slice(0, RANDOM_POST_COUNT);
-  }
-  else if (id === FilterId.DISCUSSED) {
+  } else if (id === FilterId.DISCUSSED) {
     const sortedPosts = posts.sort(sortPosts);
     filteredPosts = sortedPosts;
   } else {
     filteredPosts = posts;
   }
-  toggleFilerButtonClass(id);
   clearPosts();
   renderPosts(filteredPosts);
 };
-
-const onFiltersButtonsClick = (evt) => {
-  evt.preventDefault();
-  const currentFilterId = evt.target.id;
-  if (currentFilterId === '') {
-    return;
-  }
-  const filter = Object.values(FilterId).find((element) => element === currentFilterId);
-  renderFilteredPosts(filter);
-};
-const setRenderFilteredPostsClick = (cb) => {
-  imageFiltersForm.addEventListener('click', (evt) => cb);
+const setRenderFilteredPostsClick = (callback) => {
+  imageFiltersForm.addEventListener('click', (evt) => {
+    const currentFilterId = evt.target.id;
+    if (currentFilterId === '') {
+      return;
+    }
+    const filter = Object.values(FilterId).find((element) => element === currentFilterId);
+    toggleFilerButtonClass(filter);
+    callback(filter);
+  });
 };
 
-export { getUserPostsToThumbnailsFilters, renderFilters, onFiltersButtonsClick, setRenderFilteredPostsClick };
+export { getUserPostsToThumbnailsFilters, renderFilters, setRenderFilteredPostsClick, renderFilteredPosts };
