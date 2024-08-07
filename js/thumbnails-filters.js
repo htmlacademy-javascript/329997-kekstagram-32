@@ -5,6 +5,7 @@ const RANDOM_POST_COUNT = 10;
 
 const imageFiltersContainer = document.querySelector('.img-filters');
 const imageFiltersForm = document.querySelector('.img-filters__form');
+const userPicturesContainer = document.querySelector('.pictures');
 
 const FilterId = {
   DEFAULT: 'filter-default',
@@ -14,7 +15,7 @@ const FilterId = {
 
 let usersPosts = [];
 
-const getUserPostsToThumbnailsFilters = (data) => {
+const setUserPostsToThumbnailsFilters = (data) => {
   usersPosts = data;
 };
 
@@ -22,15 +23,14 @@ const renderFilters = () => {
   imageFiltersContainer.classList.remove('img-filters--inactive');
 };
 
-const toggleFilerButtonClass = (id) => {
+const toggleFilterButtonClass = (id) => {
   const previousActiveButton = imageFiltersForm.querySelector('.img-filters__button--active');
   const currentActiveButton = imageFiltersForm.querySelector(`#${id}`);
-  previousActiveButton.classList.toggle('img-filters__button--active', false);
-  currentActiveButton.classList.toggle('img-filters__button--active', true);
+  previousActiveButton.classList.remove('img-filters__button--active');
+  currentActiveButton.classList.add('img-filters__button--active');
 };
 
 const clearPosts = () => {
-  const userPicturesContainer = document.querySelector('.pictures');
   const renderedUserPosts = userPicturesContainer.querySelectorAll('.picture');
   renderedUserPosts.forEach((element) => element.remove());
 };
@@ -62,10 +62,9 @@ const setRenderFilteredPostsClick = (callback) => {
     if (currentFilterId === '') {
       return;
     }
-    const filter = Object.values(FilterId).find((element) => element === currentFilterId);
-    toggleFilerButtonClass(filter);
-    callback(filter);
+    toggleFilterButtonClass(currentFilterId);
+    callback(currentFilterId);
   });
 };
 
-export { getUserPostsToThumbnailsFilters, renderFilters, setRenderFilteredPostsClick, renderFilteredPosts };
+export { setUserPostsToThumbnailsFilters, renderFilters, setRenderFilteredPostsClick, renderFilteredPosts };

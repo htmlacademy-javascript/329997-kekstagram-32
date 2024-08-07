@@ -38,7 +38,6 @@ const isMeetingWithinWorkingDay = (timeStartOfTheDay, timeEndOfTheDay, timeStart
   return (timeStartOfTheMeetingInMin >= timeStartOfTheDayInMin) && (timeOfMeeting <= timeEndOfTheDayInMin);
 };
 
-
 isMeetingWithinWorkingDay('08:00', '17:30', '14:00', 90); // true
 isMeetingWithinWorkingDay('8:0', '10:0', '8:0', 120); // true
 isMeetingWithinWorkingDay('08:00', '14:30', '14:00', 90); // false

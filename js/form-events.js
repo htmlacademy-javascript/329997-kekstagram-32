@@ -12,6 +12,7 @@ const imageUploadCancelButton = imageUploadForm.querySelector('.img-upload__canc
 const inputHashtags = imageUploadForm.querySelector('.text__hashtags');
 const inputComment = imageUploadForm.querySelector('.text__description');
 const imageUploadPreview = imageUploadForm.querySelector('.img-upload__preview > img');
+const filtersPreview = document.querySelectorAll('.effects__preview');
 
 const hideForm = () => {
   imageUploadOverlay.classList.add('hidden');
@@ -54,6 +55,12 @@ const onUploadClick = () => {
   setDefaultFormStyles();
 };
 
+const setFilterPreview = (src) => {
+  filtersPreview.forEach((element) => {
+    element.style.backgroundImage = `url('${src}')`;
+  });
+};
+
 imageUploadInput.addEventListener('change', onUploadClick);
 
 imageUploadInput.addEventListener('change', () => {
@@ -66,6 +73,7 @@ imageUploadInput.addEventListener('change', () => {
   } else {
     imageUploadPreview.src = DEFAULT_PREVIEW_FILE;
   }
+  setFilterPreview(imageUploadPreview.src);
 });
 
 export { hideForm, resetForm };
